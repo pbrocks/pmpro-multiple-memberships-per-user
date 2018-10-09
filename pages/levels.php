@@ -22,7 +22,7 @@ global $wpdb, $pmpro_msg, $pmpro_msgt, $current_user;
 
 global $pmpro_levels;
 
-if ( !empty( $pmpro_levels ) ) {
+if ( ! empty( $pmpro_levels ) ) {
 	$pmpro_levels = pmpro_getAllLevels( false, true );
 }
 
@@ -32,25 +32,29 @@ $incoming_levels = pmpro_getMembershipLevelsForUser();
 
 $displayorder = pmprommpu_get_levels_and_groups_in_order();
 
-$pmpro_levels = apply_filters( "pmpro_levels_array", $pmpro_levels );
+$pmpro_levels = apply_filters( 'pmpro_levels_array', $pmpro_levels );
 
 if ( $pmpro_msg ) {
 	?>
-	<div class="pmpro_message <?php echo $pmpro_msgt ?>"><?php echo $pmpro_msg ?></div>
+	<div class="pmpro_message <?php echo $pmpro_msgt; ?>"><?php echo $pmpro_msg; ?></div>
 	<?php
 }
 ?>
 <div id="pmpro_mmpu_levels">
 	<div id="pmpro_mmpu_groups">
 		<?php
-		//$count = 0;				
+		// $count = 0;
 		foreach ( $displayorder as $group => $grouplevels ) {
 
-			if ( !empty( $grouplevels )) {
-			?>
+			if ( ! empty( $grouplevels ) ) {
+				?>
 			<div id="pmpro_mmpu_group-<?php echo $pmpro_groups[ $group ]->id; ?>"
-			     class="pmpro_mmpu_group <?php if ( intval( $pmpro_groups[ $group ]->allow_multiple_selections ) == 0 ) { ?>selectone<?php } ?>">
-				<h2 class="pmpro_mmpu_group-name"><?php echo $pmpro_groups[ $group ]->name ?></h2>
+				 class="pmpro_mmpu_group 
+				 <?php
+					if ( intval( $pmpro_groups[ $group ]->allow_multiple_selections ) == 0 ) {
+						?>
+						selectone<?php } ?>">
+				<h2 class="pmpro_mmpu_group-name"><?php echo $pmpro_groups[ $group ]->name; ?></h2>
 				<p class="pmpro_mmpu_group-type">
 					<?php
 					if ( intval( $pmpro_groups[ $group ]->allow_multiple_selections ) > 0 ) {
@@ -66,15 +70,18 @@ if ( $pmpro_msg ) {
 
 					?>
 					<div id="pmpro_mmpu_level-<?php echo $pmpro_levels[ $level ]->id; ?>"
-					     class="pmpro_mmpu_level group<?php echo $group; ?> <?php if ( isset($pmpro_groups[ $group ]->allow_multiple_selections) && intval( $pmpro_groups[ $group ]->allow_multiple_selections ) == 0 ) {
-						     echo 'selectone';
-					     } ?>">
+						 class="pmpro_mmpu_level group<?php echo $group; ?> <?php
+							if ( isset( $pmpro_groups[ $group ]->allow_multiple_selections ) && intval( $pmpro_groups[ $group ]->allow_multiple_selections ) == 0 ) {
+								echo 'selectone';
+							}
+							?>
+						 ">
 						<div class="pmpro_level-info">
 							<h3 class="pmpro_level-name"><?php echo $pmpro_levels[ $level ]->name; ?></h3>
 							<p class="pmpro_level-price">
 								<?php
 								if ( pmpro_isLevelFree( $pmpro_levels[ $level ] ) ) {
-									_e( "Free", "pmpro" );
+									_e( 'Free', 'pmpro' );
 								} else {
 									echo pmpro_getLevelCost( $pmpro_levels[ $level ], true, true );
 								}
@@ -97,22 +104,30 @@ if ( $pmpro_msg ) {
 								?>
 								<!-- change message class wrap to success for selected or error if removing -->
 								<label
-									class="pmpro_level-select <?php if ( pmpro_hasMembershipLevel( $pmpro_levels[ $level ]->id ) ) {
-										echo __( "pmpro_level-select-current", "pmprommpu" );
-									} ?>" for="level-<?php echo $pmpro_levels[ $level ]->id ?>"><input type="checkbox"
-								                                                                       id="level-<?php echo $pmpro_levels[ $level ]->id ?>"
-								                                                                       data-groupid="<?php echo $group ?>" <?php checked( pmpro_hasMembershipLevel( $pmpro_levels[ $level ]->id ), true ); ?>>&nbsp;&nbsp;<?php _e( 'Add', 'pmprommpu' ); ?>
+									class="pmpro_level-select 
+									<?php
+									if ( pmpro_hasMembershipLevel( $pmpro_levels[ $level ]->id ) ) {
+										echo __( 'pmpro_level-select-current', 'pmprommpu' );
+									}
+									?>
+									" for="level-<?php echo $pmpro_levels[ $level ]->id; ?>"><input type="checkbox"
+																									   id="level-<?php echo $pmpro_levels[ $level ]->id; ?>"
+																									   data-groupid="<?php echo $group; ?>" <?php checked( pmpro_hasMembershipLevel( $pmpro_levels[ $level ]->id ), true ); ?>>&nbsp;&nbsp;<?php _e( 'Add', 'pmprommpu' ); ?>
 								</label>
 								<?php
 							} else {
 								?>
 								<!-- change message class wrap to success for selected or error if removing -->
 								<label
-									class="pmpro_level-select <?php if ( pmpro_hasMembershipLevel( $pmpro_levels[ $level ]->id ) ) {
-										echo __( "pmpro_level-select-current", "pmprommpu" );
-									} ?>" for="level-<?php echo $pmpro_levels[ $level ]->id ?>"><input type="checkbox"
-								                                                                       id="level-<?php echo $pmpro_levels[ $level ]->id ?>"
-								                                                                       data-groupid="<?php echo $group; ?>" <?php checked( pmpro_hasMembershipLevel( $pmpro_levels[ $level ]->id ), true ); ?>>&nbsp;&nbsp;<?php _e( 'Select', 'pmprommpu' ); ?>
+									class="pmpro_level-select 
+									<?php
+									if ( pmpro_hasMembershipLevel( $pmpro_levels[ $level ]->id ) ) {
+										echo __( 'pmpro_level-select-current', 'pmprommpu' );
+									}
+									?>
+									" for="level-<?php echo $pmpro_levels[ $level ]->id; ?>"><input type="checkbox"
+																									   id="level-<?php echo $pmpro_levels[ $level ]->id; ?>"
+																									   data-groupid="<?php echo $group; ?>" <?php checked( pmpro_hasMembershipLevel( $pmpro_levels[ $level ]->id ), true ); ?>>&nbsp;&nbsp;<?php _e( 'Select', 'pmprommpu' ); ?>
 								</label>
 								<?php
 							}
@@ -123,7 +138,7 @@ if ( $pmpro_msg ) {
 				}
 				?>
 			</div> <!-- end pmpro_mmpu_group-ID -->
-			<?php
+				<?php
 			}
 		}
 		?>
@@ -148,9 +163,9 @@ if ( $pmpro_msg ) {
 <nav id="nav-below" class="navigation" role="navigation">
 	<div class="nav-previous alignleft">
 		<?php if ( ! empty( $current_user->membership_level->id ) ) { ?>
-			<a href="<?php echo pmpro_url( "account" ) ?>"><?php _e( '&larr; Return to Your Account', 'pmpro' ); ?></a>
+			<a href="<?php echo pmpro_url( 'account' ); ?>"><?php _e( '&larr; Return to Your Account', 'pmpro' ); ?></a>
 		<?php } else { ?>
-			<a href="<?php echo home_url() ?>"><?php _e( '&larr; Return to Home', 'pmpro' ); ?></a>
+			<a href="<?php echo home_url(); ?>"><?php _e( '&larr; Return to Home', 'pmpro' ); ?></a>
 		<?php } ?>
 	</div>
 </nav>

@@ -1,6 +1,6 @@
-/*
+/**
  * License:
-
+ *
  Copyright 2016 - Stranger Studios, LLC
 
  This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-jQuery(document).ready( function() {
+jQuery(document).ready( function($) {
     "use strict";
 
     var lastselectedlevel;
@@ -29,7 +29,7 @@ jQuery(document).ready( function() {
 
     for ( var i = 0, len = selectedlevels.length ; i < len ; i++ ) {
 
-        jQuery( level_elements[i] ).prop('disabled', false).removeClass("unselected").addClass("selected").val( pmprolvl.lang.selected_label );
+        $( level_elements[i] ).prop('disabled', false).removeClass("unselected").addClass("selected").val( pmprolvl.lang.selected_label );
     }
 
     updateLevelSummary();
@@ -38,11 +38,11 @@ jQuery(document).ready( function() {
     var removedlevels = {};
     var addedlevels = {};
 
-    var level_select_input = jQuery(".pmpro_level-select input");
+    var level_select_input = $(".pmpro_level-select input");
 
     level_select_input.bind('change', function () {
 
-        var select = jQuery(this);
+        var select = $(this);
 
         var newlevelid;
 
@@ -65,7 +65,7 @@ jQuery(document).ready( function() {
 
             if (currentlevels.hasOwnProperty(newlevelid)) {
                 removedlevels[newlevelid] = alllevels[newlevelid];
-                jQuery(this).parent().addClass("pmpro_level-select-removed");
+                $(this).parent().addClass("pmpro_level-select-removed");
             }
         } else {
             // we selecting a level
@@ -73,12 +73,12 @@ jQuery(document).ready( function() {
             //if a one-of, deselect all levels in this group
             if (select.parents('div.selectone').length > 0) {
 
-                var groupinputs = jQuery('input[data-groupid=' + mygroup + ']');
+                var groupinputs = $('input[data-groupid=' + mygroup + ']');
 
                 //remove all levels from this group
                 groupinputs.each( function() {
 
-                    var item = jQuery(this);
+                    var item = $(this);
                     var item_id = parseInt(item.attr('id').replace(/\D/g, ''));
 
                     //deselect
@@ -123,13 +123,13 @@ jQuery(document).ready( function() {
 
         updateLevelSummary();
     });
-    jQuery(".pmpro_mmpu_checkout-button").click(function () {
+    $(".pmpro_mmpu_checkout-button").click(function () {
 
         var addlevs = joinObjectKeys("+", addedlevels);
         var dellevs = joinObjectKeys("+", removedlevels);
         var url;
 
-        if (jQuery.isEmptyObject(addedlevels) && !jQuery.isEmptyObject(removedlevels)) {
+        if ($.isEmptyObject(addedlevels) && !$.isEmptyObject(removedlevels)) {
 
             //only removing, go to cancel
             url = pmprolvl.settings.cancel_lnk;
@@ -157,7 +157,6 @@ jQuery(document).ready( function() {
     level_select_input.change();
 
     function updateLevelSummary() {
-
         var message = "";
         var cancheckout = false;
 
@@ -187,17 +186,15 @@ jQuery(document).ready( function() {
             } else {
                 message += "<p class='mmpu_removedlevels'><label for='mmpu_removedlevels'>Removed Levels</label>None.</p>";
             }
-
         }
-        jQuery("#pmpro_mmpu_level_summary").html(message);
+        $("#pmpro_mmpu_level_summary").html(message);
         if (true === cancheckout) {
-            jQuery('.pmpro_mmpu_checkout-button').prop('disabled', false);
+            $('.pmpro_mmpu_checkout-button').prop('disabled', false);
         } else {
-            jQuery('.pmpro_mmpu_checkout-button').prop('disabled', true);
+            $('.pmpro_mmpu_checkout-button').prop('disabled', true);
         }
     }
     function removeFromArray(elemtoremove, array) {
-
         for (var arritem in array) {
             if ( array.hasOwnProperty(arritem) && array[arritem] === elemtoremove) {
                 array.splice(arritem, 1);
@@ -206,7 +203,6 @@ jQuery(document).ready( function() {
         return array;
     }
     function numOfPropsInObject(object) {
-
         var count = 0;
         for (var k in object) {
             if (object.hasOwnProperty(k)) { ++count; }
@@ -226,7 +222,6 @@ jQuery(document).ready( function() {
         return result;
     }
     function joinObjectKeys(separator, object) {
-
         var result = "";
         for (var k in object) {
             if (object.hasOwnProperty(k)) {

@@ -1,38 +1,37 @@
-/*
+/**
  * License:
-
- Copyright 2016 - Stranger Studios, LLC
-
- This program is free software; you can redistribute it and/or modify
+ * 
+ * Copyright 2016 - Stranger Studios, LLC
+ * 
+ * This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License, version 2, as
  published by the Free Software Foundation.
-
- This program is distributed in the hope that it will be useful,
+ * 
+ * This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
+ * 
+ * You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-jQuery(document).ready(function () {
+jQuery(document).ready(function($) {
     "use strict";
 
-    var main_dc_field = jQuery('#discount_code');
-    var main_dc_btn = jQuery('#discount_code_button');
-    var other_dc_link = jQuery('#other_discount_code_a');
-    var other_dc_field = jQuery('#other_discount_code');
+    var main_dc_field = $('#discount_code');
+    var main_dc_btn = $('#discount_code_button');
+    var other_dc_link = $('#other_discount_code_a');
+    var other_dc_field = $('#other_discount_code');
 
     // Only process/handle if  $pmpro_show_discount_code filter permits it.
     if ( true === pmprodc.settings.show_main_discount_code ) {
-
         //update discount code link to show field at top of form
         other_dc_link.attr('href', 'javascript:void(0);');
         other_dc_link.click(function () {
-            jQuery('#other_discount_code_tr').show();
-            jQuery('#other_discount_code_p').hide();
-            jQuery('#other_discount_code').focus();
+            $('#other_discount_code_tr').show();
+            $('#other_discount_code_p').hide();
+            $('#other_discount_code').focus();
         });
 
         //update real discount code field as the other discount code field is updated
@@ -52,21 +51,21 @@ jQuery(document).ready(function () {
         });
 
         //applying a discount code
-        var other_dc_btn = jQuery('#other_discount_code_button');
+        var other_dc_btn = $('#other_discount_code_button');
 
         other_dc_btn.click(function () {
 
             var discount_code = other_dc_field.val();
-            var level_id = jQuery('#level').val();
+            var level_id = $('#level').val();
 
             if (typeof discount_code !== 'undefined') {
                 //hide any previous message
-                jQuery('.pmpro_discount_code_msg').hide();
+                $('.pmpro_discount_code_msg').hide();
 
                 //disable the apply button
                 other_dc_btn.attr('disabled', 'disabled');
 
-                jQuery.ajax({
+                $.ajax({
                     url: pmprodc.settings.ajaxurl,
                     type: 'GET',
                     timeout: pmprodc.settings.timeout,
@@ -81,7 +80,7 @@ jQuery(document).ready(function () {
                         window.alert('Error applying discount code [1]');
 
                         //enable apply button
-                        jQuery('#other_discount_code_button').removeAttr('disabled');
+                        $('#other_discount_code_button').removeAttr('disabled');
                     },
                     success: function (responseHTML) {
 
@@ -89,11 +88,11 @@ jQuery(document).ready(function () {
                             window.alert('Error applying discount code [2]');
                         }
                         else {
-                            jQuery('#pmpro_message').html(responseHTML);
+                            $('#pmpro_message').html(responseHTML);
                         }
 
                         //enable invite button
-                        jQuery('#other_discount_code_button').removeAttr('disabled');
+                        $('#other_discount_code_button').removeAttr('disabled');
                     }
                 })
                 ;
@@ -102,18 +101,17 @@ jQuery(document).ready(function () {
     }
     //checking a discount code
     main_dc_btn.click(function() {
-        var discount_code = jQuery('#discount_code').val();
-        var level_id = jQuery('#level').val();
+        var discount_code = $('#discount_code').val();
+        var level_id = $('#level').val();
 
-        if(discount_code)
-        {
+        if(discount_code){
             //hide any previous message
-            jQuery('.pmpro_discount_code_msg').hide();
+            $('.pmpro_discount_code_msg').hide();
 
             //disable the apply button
             main_dc_btn.attr('disabled', 'disabled');
 
-            jQuery.ajax({
+            $.ajax({
                 url: pmprodc.settings.ajaxurl,
                 type:'GET',
                 timeout: pmprodc.settings.timeout,
@@ -131,15 +129,11 @@ jQuery(document).ready(function () {
                     main_dc_btn.removeAttr('disabled');
                 },
                 success: function(responseHTML){
-                    if (responseHTML === 'error')
-                    {
+                    if (responseHTML === 'error'){
                         window.alert('Error applying discount code [2]');
+                    } else {
+                        $('#discount_code_message').html(responseHTML);
                     }
-                    else
-                    {
-                        jQuery('#discount_code_message').html(responseHTML);
-                    }
-
                     //enable invite button
                     main_dc_btn.removeAttr('disabled');
                 }
@@ -147,9 +141,9 @@ jQuery(document).ready(function () {
         }
     });
 
-    var card_type = jQuery('#CardType');
+    var card_type = $('#CardType');
 
-    jQuery('#AccountNumber').validateCreditCard(function(result) {
+    $('#AccountNumber').validateCreditCard(function(result) {
 
         var cardtypenames = {
             "amex"                      : "American Express",
@@ -172,34 +166,34 @@ jQuery(document).ready(function () {
     });
 
     // Find ALL <form> tags on your page
-    jQuery('form').submit(function(){
+    $('form').submit(function(){
 
         // On submit disable its submit button
-        jQuery('input[type=submit]', this).attr('disabled', 'disabled');
-        jQuery('input[type=image]', this).attr('disabled', 'disabled');
-        jQuery('#pmpro_processing_message').css('visibility', 'visible');
+        $('input[type=submit]', this).attr('disabled', 'disabled');
+        $('input[type=image]', this).attr('disabled', 'disabled');
+        $('#pmpro_processing_message').css('visibility', 'visible');
     });
 
     //iOS Safari fix (see: http://stackoverflow.com/questions/20210093/stop-safari-on-ios7-prompting-to-save-card-data)
     var userAgent = window.navigator.userAgent;
     if(userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
-        jQuery('input[type=submit]').click(function() {
+        $('input[type=submit]').click(function() {
             try{
-                jQuery("input[type=password]").attr("type", "hidden");
+                $("input[type=password]").attr("type", "hidden");
             } catch(ex){
                 try {
-                    jQuery("input[type=password]").prop("type", "hidden");
+                    $("input[type=password]").prop("type", "hidden");
                 } catch(ex) {}
             }
         });
     }
 
     //add required to required fields
-    jQuery('.pmpro_required').after('<span class="pmpro_asterisk"> <abbr title="Required Field">*</abbr></span>');
+    $('.pmpro_required').after('<span class="pmpro_asterisk"> <abbr title="Required Field">*</abbr></span>');
 
     //unhighlight error fields when the user edits them
-    jQuery('.pmpro_error').bind("change keyup input", function() {
-        jQuery(this).removeClass('pmpro_error');
+    $('.pmpro_error').bind("change keyup input", function() {
+        $(this).removeClass('pmpro_error');
     });
 
     //click apply button on enter in discount code box
@@ -228,5 +222,5 @@ jQuery(document).ready(function () {
     });
 
     //add javascriptok hidden field to checkout
-    jQuery("input[name=submit-checkout]").after('<input type="hidden" name="javascriptok" value="1" />');
+    $("input[name=submit-checkout]").after('<input type="hidden" name="javascriptok" value="1" />');
 });
